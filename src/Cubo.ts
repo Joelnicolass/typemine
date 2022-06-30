@@ -9,15 +9,18 @@ export abstract class Cubo {
 
   private destruir(): void {
     console.log("Cubo destruido");
+    this.hp = 0;
   }
 
-  public reducirHp(hp: number): void {
+  public reducirHp(hp: number): number {
     if (hp > 0) {
       this.hp -= hp / this.resistencia;
     }
     if (this.hp <= 0) {
       this.destruir();
+      return 0;
     }
+    return this.hp;
   }
 
   get getHp(): number {

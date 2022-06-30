@@ -133,6 +133,7 @@ export class Mapa {
   private verificarSiHayCuboCerca(): {
     hayCuboCerca: boolean;
     cubo: Cubo | null;
+    posicionCubo: Posicion | null;
   } {
     let posicionJugador: Posicion = { ...this.posicionJugador };
     let posicionCubo: Posicion;
@@ -151,20 +152,29 @@ export class Mapa {
         return {
           hayCuboCerca: true,
           cubo: this.cubos[i],
+          posicionCubo,
         };
       }
     }
     return {
       hayCuboCerca: false,
       cubo: null,
+      posicionCubo: null,
     };
   }
 
   public picar(): void {
-    const { hayCuboCerca, cubo } = this.verificarSiHayCuboCerca();
+    const { hayCuboCerca, cubo, posicionCubo } = this.verificarSiHayCuboCerca();
     if (hayCuboCerca) {
-      console.log("picar");
-      //this.jugador.picar(cubo);
+      const hpCubo = this.jugador.picar(cubo!);
+      if (hpCubo <= 0) {
+        this.cubos.filter((cubo) => cubo !== cubo);
+        this.posicionCubos.filter(
+          (posicionCubo) => posicionCubo !== posicionCubo
+        );
+
+        this.mapa[posicionCubo!.x][posicionCubo!.y] = 0;
+      }
     } else {
       console.log("No hay cubo cerca");
     }

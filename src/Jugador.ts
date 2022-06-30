@@ -10,8 +10,8 @@ export class Jugador {
     this.pico = pico;
   }
 
-  picar(cubo: Cubo): void {
-    cubo.reducirHp(this.pico.getFuerza);
-    console.log(`${this.nombre} picó el cubo y le queda ${cubo.getHp} hp`);
+  picar(cubo: Cubo): number {
+    const hp = cubo.reducirHp(this.pico.getFuerza);
+    return hp;
   }
 }

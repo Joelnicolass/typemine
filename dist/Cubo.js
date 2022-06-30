@@ -8,6 +8,7 @@ class Cubo {
     }
     destruir() {
         console.log("Cubo destruido");
+        this.hp = 0;
     }
     reducirHp(hp) {
         if (hp > 0) {
@@ -15,7 +16,9 @@ class Cubo {
         }
         if (this.hp <= 0) {
             this.destruir();
+            return 0;
         }
+        return this.hp;
     }
     get getHp() {
         return this.hp;
