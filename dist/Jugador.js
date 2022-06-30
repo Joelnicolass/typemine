@@ -8,6 +8,7 @@ class Jugador {
     }
     picar(cubo) {
         cubo.reducirHp(this.pico.getFuerza);
+        console.log(`${this.nombre} picó el cubo y le queda ${cubo.getHp} hp`);
     }
 }
 exports.Jugador = Jugador;

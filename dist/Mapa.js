@@ -57,23 +57,23 @@ class Mapa {
         console.log(posicionNueva);
         switch (direccion) {
             case Direccion.ARRIBA:
-                posicionNueva.y--;
-                break;
-            case Direccion.ABAJO:
-                posicionNueva.y++;
-                break;
-            case Direccion.IZQUIERDA:
                 posicionNueva.x--;
                 break;
-            case Direccion.DERECHA:
+            case Direccion.ABAJO:
                 posicionNueva.x++;
+                break;
+            case Direccion.IZQUIERDA:
+                posicionNueva.y--;
+                break;
+            case Direccion.DERECHA:
+                posicionNueva.y++;
                 break;
         }
         // verificar si existe la posicion
         if (posicionNueva.x < 0 ||
             posicionNueva.x > 5 ||
             posicionNueva.y < 0 ||
-            posicionNueva.y > 5) {
+            posicionNueva.y > 6) {
             console.log("No se puede mover");
             return;
         }
@@ -98,6 +98,40 @@ class Mapa {
     verMapa() {
         console.log(this.posicionJugador);
         console.table(this.mapa);
+    }
+    verificarSiHayCuboCerca() {
+        let posicionJugador = Object.assign({}, this.posicionJugador);
+        let posicionCubo;
+        for (let i = 0; i < this.cubos.length; i++) {
+            posicionCubo = Object.assign({}, this.posicionCubos[i]);
+            if ((posicionJugador.y - 1 === posicionCubo.y &&
+                posicionJugador.x === posicionCubo.x) ||
+                (posicionJugador.y + 1 === posicionCubo.y &&
+                    posicionJugador.x === posicionCubo.x) ||
+                (posicionJugador.x - 1 === posicionCubo.x &&
+                    posicionJugador.y === posicionCubo.y) ||
+                (posicionJugador.x + 1 === posicionCubo.x &&
+                    posicionJugador.y === posicionCubo.y)) {
+                return {
+                    hayCuboCerca: true,
+                    cubo: this.cubos[i],
+                };
+            }
+        }
+        return {
+            hayCuboCerca: false,
+            cubo: null,
+        };
+    }
+    picar() {
+        const { hayCuboCerca, cubo } = this.verificarSiHayCuboCerca();
+        if (hayCuboCerca) {
+            console.log("picar");
+            //this.jugador.picar(cubo);
+        }
+        else {
+            console.log("No hay cubo cerca");
+        }
     }
 }
 exports.Mapa = Mapa;

@@ -12,5 +12,6 @@ export class Jugador {
 
   picar(cubo: Cubo): void {
     cubo.reducirHp(this.pico.getFuerza);
+    console.log(`${this.nombre} picó el cubo y le queda ${cubo.getHp} hp`);
   }
 }

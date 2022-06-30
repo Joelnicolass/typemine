@@ -75,16 +75,16 @@ export class Mapa {
     console.log(posicionNueva);
     switch (direccion) {
       case Direccion.ARRIBA:
-        posicionNueva.y--;
-        break;
-      case Direccion.ABAJO:
-        posicionNueva.y++;
-        break;
-      case Direccion.IZQUIERDA:
         posicionNueva.x--;
         break;
-      case Direccion.DERECHA:
+      case Direccion.ABAJO:
         posicionNueva.x++;
+        break;
+      case Direccion.IZQUIERDA:
+        posicionNueva.y--;
+        break;
+      case Direccion.DERECHA:
+        posicionNueva.y++;
         break;
     }
 
@@ -93,7 +93,7 @@ export class Mapa {
       posicionNueva.x < 0 ||
       posicionNueva.x > 5 ||
       posicionNueva.y < 0 ||
-      posicionNueva.y > 5
+      posicionNueva.y > 6
     ) {
       console.log("No se puede mover");
       return;
@@ -128,5 +128,45 @@ export class Mapa {
   verMapa(): void {
     console.log(this.posicionJugador);
     console.table(this.mapa);
+  }
+
+  private verificarSiHayCuboCerca(): {
+    hayCuboCerca: boolean;
+    cubo: Cubo | null;
+  } {
+    let posicionJugador: Posicion = { ...this.posicionJugador };
+    let posicionCubo: Posicion;
+    for (let i = 0; i < this.cubos.length; i++) {
+      posicionCubo = { ...this.posicionCubos[i] };
+      if (
+        (posicionJugador.y - 1 === posicionCubo.y &&
+          posicionJugador.x === posicionCubo.x) ||
+        (posicionJugador.y + 1 === posicionCubo.y &&
+          posicionJugador.x === posicionCubo.x) ||
+        (posicionJugador.x - 1 === posicionCubo.x &&
+          posicionJugador.y === posicionCubo.y) ||
+        (posicionJugador.x + 1 === posicionCubo.x &&
+          posicionJugador.y === posicionCubo.y)
+      ) {
+        return {
+          hayCuboCerca: true,
+          cubo: this.cubos[i],
+        };
+      }
+    }
+    return {
+      hayCuboCerca: false,
+      cubo: null,
+    };
+  }
+
+  public picar(): void {
+    const { hayCuboCerca, cubo } = this.verificarSiHayCuboCerca();
+    if (hayCuboCerca) {
+      console.log("picar");
+      //this.jugador.picar(cubo);
+    } else {
+      console.log("No hay cubo cerca");
+    }
   }
 }
