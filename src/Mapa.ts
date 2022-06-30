@@ -70,32 +70,43 @@ export class Mapa {
   }
 
   public moverJugador(direccion: Direccion): void {
-    let posicion = this.posicionJugador;
+    let posicionAnterior: Posicion = { ...this.posicionJugador };
+    let posicionNueva: Posicion = { ...this.posicionJugador };
+    console.log(posicionNueva);
     switch (direccion) {
       case Direccion.ARRIBA:
-        posicion.y--;
+        posicionNueva.y--;
         break;
       case Direccion.ABAJO:
-        posicion.y++;
+        posicionNueva.y++;
         break;
       case Direccion.IZQUIERDA:
-        posicion.x--;
+        posicionNueva.x--;
         break;
       case Direccion.DERECHA:
-        posicion.x++;
+        posicionNueva.x++;
         break;
     }
 
     // verificar si existe la posicion
-    if (posicion.x < 0 || posicion.x > 5 || posicion.y < 0 || posicion.y > 6) {
+    if (
+      posicionNueva.x < 0 ||
+      posicionNueva.x > 5 ||
+      posicionNueva.y < 0 ||
+      posicionNueva.y > 5
+    ) {
       console.log("No se puede mover");
       return;
     }
 
-    if (this.mapa[posicion.x][posicion.y] === 0) {
+    if (this.mapa[posicionNueva.x][posicionNueva.y] === 0) {
       console.log("Movimiento permitido");
-      this.actualizarMapa(this.posicionJugador, posicion);
-      this.posicionJugador = posicion;
+
+      console.log(posicionAnterior);
+      console.log(posicionNueva);
+
+      this.actualizarMapa(posicionAnterior, posicionNueva);
+      this.posicionJugador = posicionNueva;
     } else {
       console.log("No se puede mover");
     }
@@ -106,11 +117,12 @@ export class Mapa {
     posicionNueva: Posicion
   ): void {
     console.log("se ejecuta");
-    console.log(posicionAnterior);
-    this.mapa[posicionAnterior.x][posicionAnterior.y] = "j";
+
     this.mapa[posicionAnterior.x][posicionAnterior.y] = 0;
+    this.mapa[posicionNueva.x][posicionNueva.y] = "j";
+
     console.log(this.mapa[posicionNueva.x][posicionNueva.y]);
-    console.log(this.mapa[posicionAnterior.y][posicionAnterior.x]);
+    console.log(this.mapa[posicionAnterior.x][posicionAnterior.y]);
   }
 
   verMapa(): void {
